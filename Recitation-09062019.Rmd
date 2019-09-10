@@ -1,0 +1,257 @@
+---
+title: "R Notebook"
+output:
+  html_document: default
+  html_notebook: default
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+
+
+```{r}
+getwd()
+```
+
+```{r}
+ls()
+```
+
+```{r}
+rm(list = ls())
+ls()
+```
+
+```{r}
+load('Credit.RData')
+
+#save(Credit, file = "Credit.RData")
+```
+
+```{r}
+# install.packages('data.table')
+# library(data.table)
+#Credit <- fread('Credit.csv')
+#fwrite(Credit, file = "Credit.csv")
+#Credit <- fread('Credit.txt')
+```
+
+
+
+```{r}
+class(Credit)
+head(Credit,10)
+```
+
+## Types of Data objects
+
+
+### Data frames
+```{r}
+#integer
+head(Credit$ID)
+class(Credit$ID)
+
+#numeric (float)
+head(Credit$Income)
+class(Credit$Income)
+
+#factor (character)
+head(Credit$Gender)
+class(Credit$Gender)
+
+#logical (TRUE / FALSE)
+head(Credit$Gender == " Male")
+class(Credit$Gender == TRUE)
+```
+
+
+### Matrix
+```{r}
+Credit_m_chr <- as.matrix(Credit)
+class(Credit_m_chr)
+head(Credit_m_chr,10)
+class(Credit_m_chr[,1])
+```
+
+```{r}
+Credit_m_num <- data.matrix(Credit)
+class(Credit_m_num)
+head(Credit_m_num,10)
+class(Credit_m_num[,1])
+```
+
+
+
+
+
+### Array
+```{r}
+vector1 <- Credit[1, ]
+vector2 <- Credit[2, ]
+vector_array <- array(c(vector1,vector2), dim = c(4,6,2))
+class(vector_array)
+length(vector_array)
+```
+
+
+
+###List
+```{r}
+#get three items of different objects
+item1 <- Credit[1:2, ]
+class(item1)
+item2 <- Credit_m_chr[1:2, ]
+class(item2)
+item3 <- vector_array
+class(item3)
+
+#create the list
+item_list <- list(item1,item2,item3)
+class(item_list)
+item_list[[1]]
+item_list[[2]]
+item_list[[3]]
+length(item_list)
+```
+
+
+
+### explore the data with basic manipulation
+```{r}
+#check the names of columns
+names(Credit)
+#check the structure of each column
+str(Credit)
+#check the dimension of data
+dim(Credit)
+```
+
+### Indexing and names
+```{r}
+#add a new column
+Credit$ID_copy <- Credit$ID
+names(Credit)
+
+#change the column names
+names(Credit)[13] <- c('id') 
+#colnames(Credit)[13] <- c('id')
+names(Credit)
+
+#choose the columns by index or name
+head(Credit$ID)
+head(Credit[ , 1])
+head(Credit[ , c('ID')])
+
+head(Credit[ , 1:2])
+head(Credit[ , c('ID', 'Income')])
+
+#find the biggest id
+which.max(Credit$ID)
+
+```
+
+### Factors manipulation
+```{r}
+factor1 <- Credit$Ethnicity
+class(factor1)
+#check levels
+levels(factor1)
+
+factor1[1] <- NA
+#check missing
+any(is.na(factor1))
+sum(is.na(factor1))
+length(levels(factor1))
+#summary
+summary(factor1)
+```
+
+
+
+###Matrix manipulation
+```{r}
+matrix1 <- Credit_m_num[1:2, ]
+#check dimension
+dim(matrix1)
+print(matrix1)
+
+#transposition
+matrix2 <- t(matrix1)
+dim(matrix2)
+
+
+#element-wise
+matrix1 + 1
+
+#two matrix
+matrix1 %*% matrix2
+```
+
+
+###List manipulation
+```{r}
+item_list[[1]]
+item_list[[1]]$ID
+item_list[[1]][ , 1:2]
+item_list[[1]][ , c('ID', 'Income')]
+
+
+item_list[[3]]
+item_list[[3]][[1]]
+item_list[[3]][1]
+```
+
+
+### Basic plots
+```{r}
+#use column names without data object name
+attach(Credit)
+plot(Rating, Income, 
+     main = "Rating vs Income", xlab = "Age", ylab = "",
+     col = "red", type = "p", pch = 19, 
+     xlim = c(0, 10000), ylim = c(0, 200))
+
+
+#detach(Credit)
+```
+
+
+###Conditional statement
+```{r}
+#find the ID with highest rating
+
+for( ID in 1:length(Credit$ID)){
+  if(Credit$Rating[ID] == max(Credit$Rating)){
+    print(ID)
+  }
+}
+
+print(Credit$ID[which.max(Credit$Rating)])
+
+#find the total number of Female with Age over 40
+
+count <- 0
+for( i in 1:dim(Credit)[1]){
+  if(Credit$Age[i] > 40 & Credit$Gender[i] == "Female") {
+    count <- count + 1
+  }
+}
+print(count)
+
+print(sum(Credit$Age > 40 & Credit$Gender == "Female"))
+```
+
+
+
+
+
+
+
+
