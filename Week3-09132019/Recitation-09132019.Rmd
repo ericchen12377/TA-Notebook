@@ -1,0 +1,165 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+### make sure to set up the right working directory and put the data under the directory
+```{r}
+load('Credit.RData')
+```
+
+```{r}
+# install.packages("tidyverse")
+# install.packages("ggplot2")
+# install.packages("dplyr")
+library("tidyverse")
+library("dplyr")
+library("ggplot2")
+```
+
+
+# Graphical summary of data
+## pie chart
+```{r}
+#create the summary data
+Ethnicity_group_percent <- Credit %>% group_by(Ethnicity) %>% summarise(Percent = n()/ nrow(Credit))
+print(Ethnicity_group_percent)
+```
+
+
+```{r}
+#create pie chart from base R function
+pie(x = Ethnicity_group_percent$Percent, 
+    labels = paste0(Ethnicity_group_percent$Ethnicity," ",Ethnicity_group_percent$Percent,"%"),
+    col = gray(seq(0.4, 1.0, length = 3)))
+```
+
+
+
+```{r}
+#create pie chart from ggplot2
+pie <- ggplot(Ethnicity_group_percent, aes(x="", y=Ethnicity_group_percent$Percent, fill=Ethnicity_group_percent$Ethnicity))+
+  geom_bar(width = 1, stat = "identity")+
+  coord_polar("y", start=0)
+pie
+```
+
+
+## Barplot
+```{r}
+#create barplot using base R function
+barplot(Ethnicity_group_percent$Percent, 
+        names.arg = paste0(Ethnicity_group_percent$Ethnicity," ",Ethnicity_group_percent$Percent,"%"),
+        col = c("red", "blue", "green"),
+        space = 2
+        )
+```
+
+
+```{r}
+#create barplot in ggplot2
+barplot <- ggplot(Ethnicity_group_percent, aes(x=Ethnicity_group_percent$Ethnicity, y=Ethnicity_group_percent$Percent, fill=Ethnicity_group_percent$Ethnicity))+
+  geom_bar(width = 0.5, stat = "identity")
+barplot
+```
+
+
+
+## Histogram
+```{r}
+#create histogram from base R function
+histogram <- hist(Credit$Income, breaks = 10)
+#check the frequency
+histogram$counts
+#calculate the relative frequency
+histogram$counts / length(Credit$Income)
+```
+
+```{r}
+hist(Credit$Rating, breaks = 30)
+```
+
+
+
+```{r}
+#create histogram in ggplot2
+histogram <- ggplot(Credit, aes(x=Income)) + 
+  geom_histogram(binwidth=10)
+histogram
+```
+
+
+
+
+## Boxplot
+```{r}
+#create boxplot from base R function
+boxplot(Credit$Income, horizontal = TRUE, 
+        xlab = "Income")
+
+boxplot(Income ~ Gender + Student, data = Credit)
+```
+
+
+
+```{r}
+#create boxplot from ggplot2
+boxplot <- ggplot(Credit, aes(x="", y=Income)) + 
+  geom_boxplot() + 
+  #flip the graph
+  coord_flip()
+boxplot
+```
+
+
+
+## Scatter plot
+```{r}
+#create scatter plot from base R function
+plot(Credit$Income, Credit$Rating, pch =11)
+```
+
+```{r}
+#create scatter plot from ggplot2
+ggplot(Credit, aes(x=Income, y=Rating)) + geom_point()
+```
+
+
+
+# Numerical summary of the data
+```{r}
+attach(Credit)
+#sample mean with direct function
+mean(Income)
+
+#sample mean with indirect function
+sum(Income) / nrow(Credit)
+
+#sample median, direct
+median(Income)
+#sample median, use 50% quantile 
+quantile(Income, probs = 0.5)
+
+#sample variance
+var(Income)
+
+#sample standard deviation
+sd(Income)
+sqrt(var(Income))
+
+#sample quantile
+quantile(Income, probs = 0.25)
+
+#IQR, interquantile range
+IQR(Income, type = 1)
+```
+
+
+
+
+
+
+
+
+
+
