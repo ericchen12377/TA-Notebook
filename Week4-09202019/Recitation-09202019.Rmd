@@ -1,0 +1,192 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+#Random variable distributions
+## Discrete distributions
+
+### Bernoulli and Binomial distribution
+```{r}
+#install.packages("Rlab")
+library("Rlab")
+
+#Bernoulli is a special case of Binomial
+#x = 0 or 1
+dbern(x = 0, prob = 0.7)
+dbinom(x = 0, size = 1, prob = 0.7)
+
+dbern(x = 1, prob = 0.7)
+dbinom(x = 1, size = 1, prob = 0.7)
+
+
+```
+
+
+```{r}
+#pmf
+dbinom(x = 3, size = 10, prob = 0.5)
+size = 50
+#balanced
+pmf = dbinom(x = 1:size, size = size, prob = 0.5)
+plot(pmf, pch = 16)
+
+#skewed 
+pmf = dbinom(x = 1:size, size = size, prob = 0.1)
+plot(pmf, pch = 16)
+
+pmf = dbinom(x = 1:size, size = size, prob = 0.8)
+plot(pmf, pch = 16)
+```
+
+```{r}
+#cmf
+pbinom(q = 3, size = 10, prob = 0.5)
+pbinom(q = 2, size = 10, prob = 0.5)
+pbinom(q = 1, size = 10, prob = 0.5)
+pbinom(q = 0, size = 10, prob = 0.5)
+
+pbinom(q = 3, size = 10, prob = 0.5) - pbinom(q = 2, size = 10, prob = 0.5)
+
+size = 50
+cmf = pbinom(q = 0:size, size = 50, prob = 0.5)
+plot(cmf, pch=16)
+```
+
+
+
+
+```{r}
+#quantile value, p is quantile
+qbinom(p = 0.5, size = 10, prob = 0.5)
+qbinom(p = pbinom(q = 3, size = 10, prob = 0.5), size = 10, prob = 0.5)
+
+```
+
+
+```{r}
+#random sample
+b1 <- rbinom(n = 100, size = 10, prob = 0.5)
+summary(as.factor(b1))
+hist(b1, breaks = 10)
+
+b2 <- rbinom(n = 1000, size = 50, prob = 0.5)
+hist(b2, breaks = 10)
+
+
+rbinom(n = 50, size = 3, prob = 0.1)
+summary(as.factor(rbinom(n = 50, size = 3, prob = 0.1)))
+
+rbinom(n = 50, size = 3, prob = 0.9)
+summary(as.factor(rbinom(n = 50, size = 3, prob = 0.9)))
+```
+
+
+## Continuous distribution
+
+### Normal distribution
+```{r}
+pnorm(0.2515,mean=0.2508,sd=0.0005)
+
+xseq <- seq(-1, 1, 0.01)
+pdf <- dnorm(x = xseq, mean=0,sd=0.1)
+plot(pdf, pch=16)
+
+cdf <- pnorm(q = xseq, mean=0,sd=0.1)
+plot(cdf, pch=16)
+
+```
+
+
+
+
+
+#Simple linear regression
+```{r}
+library(data.table)
+data <- fread("Advertising.csv")
+head(data,10)
+```
+
+
+
+```{r}
+#TV:TVadvertisingbudgets
+#sales
+lm_model <- lm(sales ~ TV, data = data)
+summary(lm_model)
+```
+
+
+```{r}
+#how to estimate unknown parameters
+attach(data)
+# y = beta_0 + beta_1*x + error
+beta_1 <- sum((TV - mean(TV))*(sales - mean(sales))) / sum((TV - mean(TV))^2)
+print(beta_1)
+beta_0 <- mean(sales) - beta_1*mean(TV)
+print(beta_0)
+
+pred <- beta_0 + beta_1*TV
+
+error_var <- sum((sales - pred)^2) / (nrow(data) - 2)
+print(error_var)
+print(sqrt(error_var))
+
+RSS <- sum((sales - pred)^2)
+TSS <- sum((sales - mean(sales))^2)
+
+R_square <- 1 - RSS/TSS
+print(R_square)
+
+
+adj_R_square <- 1 - (1 - R_square)*(nrow(data) - 1)/(nrow(data) - 1 - 1)
+print(adj_R_square)
+```
+
+
+```{r}
+#Inference in beta_1
+##t-statistics
+sd_beta_1 <- sqrt(error_var / sum((TV - mean(TV))^2))
+t_beta_1 <- beta_1 / sd_beta_1
+print(t_beta_1)
+
+##p-value
+degree_of_freedom <- nrow(data) - 2
+pvalue_beta_1 <- 2*(1 - pt(t_beta_1, df = degree_of_freedom))
+print(pvalue_beta_1)
+
+##confidence interval
+alpha <- 0.05
+t_alpha <- abs(qt(alpha/2, df = degree_of_freedom))
+
+CI_low_beta_1 <- beta_1 - t_alpha * sd_beta_1
+CI_high_beta_1 <- beta_1 + t_alpha * sd_beta_1
+
+print(c(CI_low_beta_1, CI_high_beta_1))
+
+
+#Inference in beta_0
+sd_beta_0 <- error_var * (1/nrow(data) + (mean(TV)^2)/sum((TV - mean(TV))^2))
+CI_low_beta_0 <- beta_0 - t_alpha * sd_beta_0
+CI_high_beta_0 <- beta_0 + t_alpha * sd_beta_0
+print(c(CI_low_beta_0, CI_high_beta_0))
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
