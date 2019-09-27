@@ -1,0 +1,118 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+#Multiple linear regression
+```{r}
+library(data.table)
+data <- fread("Advertising.csv")
+head(data,10)
+```
+
+
+```{r}
+lm_model_TV <- lm(sales ~ TV, data = data)
+summary(lm_model_TV)
+```
+
+
+```{r}
+lm_model_radio <- lm(sales ~ radio, data = data)
+summary(lm_model_radio)
+```
+
+
+
+
+```{r}
+lm_model_newpaper <- lm(sales ~ newspaper, data = data)
+summary(lm_model_newpaper)
+```
+
+
+#relationships of different advertising media
+```{r}
+lm_models <- lm(sales ~ TV + radio + newspaper, data = data)
+summary(lm_models)
+```
+
+
+#Model inference
+```{r}
+cor(data[ , c('TV', 'radio', 'newspaper')])
+```
+
+
+
+
+
+```{r}
+pred <- predict(lm_models)
+attach(data)
+#F-statistic
+TSS <- sum((sales - mean(sales))^2)
+RSS <- sum((sales - pred)^2)
+
+n <- nrow(data)
+p <- 3
+
+F_stat <- ((TSS - RSS) / p) / (RSS / (n - p - 1))
+print(F_stat)
+
+```
+
+
+```{r}
+#Qualitative predictors
+load('Credit.RData')
+
+lm_credit <- lm(Rating ~ Income + Gender + Ethnicity, data = Credit)
+summary(lm_credit)
+```
+
+
+```{r}
+#Onehot Encoding
+Onehot_categ_credit <- model.matrix(Rating ~ Gender + Ethnicity, data = Credit)
+
+Onehot_credit <- cbind.data.frame(Credit[ , c('Rating', 'Income')], Onehot_categ_credit[ , -1])
+
+lm_credit_onehot <- lm(Rating ~., data = Onehot_credit)
+summary(lm_credit_onehot)
+```
+
+
+```{r}
+#intercaction term
+
+lm_model_TV_radio <- lm(sales ~ TV + radio + TV*radio, data = data)
+summary(lm_model_TV_radio)
+```
+
+
+
+
+```{r}
+#nonlinear transformation
+lm_poly <- lm(sales ~ I(log(TV)) + I(log(TV)^2), data = data)
+summary(lm_poly)
+pred_ploy <- predict(lm_poly)
+
+plot(log(TV), sales)
+#points(log(TV), pred_ploy, col = 2)
+
+lines(sort(log(TV)), pred_ploy[order(log(TV))], col= 2, lwd = 3) 
+```
+
+
+
+
+
+
+
+
+
+
+
+

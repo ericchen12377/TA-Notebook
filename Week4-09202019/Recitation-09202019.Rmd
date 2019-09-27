@@ -168,7 +168,7 @@ print(c(CI_low_beta_1, CI_high_beta_1))
 
 
 #Inference in beta_0
-sd_beta_0 <- error_var * (1/nrow(data) + (mean(TV)^2)/sum((TV - mean(TV))^2))
+sd_beta_0 <- sqrt(error_var * (1/nrow(data) + (mean(TV)^2)/sum((TV - mean(TV))^2)))
 CI_low_beta_0 <- beta_0 - t_alpha * sd_beta_0
 CI_high_beta_0 <- beta_0 + t_alpha * sd_beta_0
 print(c(CI_low_beta_0, CI_high_beta_0))
