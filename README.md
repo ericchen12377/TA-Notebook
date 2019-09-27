@@ -12,7 +12,7 @@
 - Discrete distributions
 - Continuous distributions
 - Simple linear regression
-- Model inference (prediction, standard error, t-statistic,p-value, confidence interval,R2, adjusted-R2)
+- Model inference (prediction, standard error, t-statistic, p-value, confidence interval,R2, adjusted-R2)
 ## Week 5, 09-27-2019
 - Multiple linear regression
 - F-statistic
