@@ -1,0 +1,80 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+# Logistic Regression
+
+```{r}
+#install.packages("ISLR")
+library(ISLR)
+data <- Default
+head(data)
+
+```
+
+# simple logistic regression
+```{r}
+logistic_model <- glm(default ~ student, family="binomial", data = data)
+summary(logistic_model)
+```
+
+
+
+```{r}
+#construct from simple linear regression, not exactly the same
+prob_yes_no <- sum(data[data$student=="No",]$default == "Yes") / nrow(data[data$student=="No",])
+prob_yes_yes <- sum(data[data$student=="Yes",]$default == "Yes") / nrow(data[data$student=="Yes",])
+
+data$p <- 0
+data[data$student=="No",]$p <- prob_yes_no
+data[data$student=="Yes",]$p <- prob_yes_yes
+data$log_p <- log(data$p / (1 - data$p))
+
+summary(lm(log_p ~ student, data = data))
+```
+
+
+#Multiple logistic regression
+```{r}
+logistic_model <- glm(default ~ student + balance + income, family="binomial", data = data)
+summary(logistic_model)
+```
+
+
+```{r}
+pred_log <- predict(logistic_model, type = "link")
+head(pred_log)
+```
+
+
+```{r}
+pred_prob <- predict(logistic_model, type = "response")
+head(pred_prob)
+```
+
+
+```{r}
+thres <- 0.5
+pred_label <- ifelse(pred_prob > thres, "Yes", "No")
+head(pred_label)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
