@@ -19,3 +19,10 @@
 - One-hot encoding
 - Nonlinear transformation (log, polynomial)
 
+## Week 6, 10-04-2019
+- Logistic regression
+
+## Week 7, 10-11-2019
+- Linear Discriminant Analysis
+- Quadratic Discriminant Analysis
+- K-Nearest Neighbors
