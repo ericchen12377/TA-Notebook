@@ -1,0 +1,111 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+```{r}
+library(ISLR)
+data <- Default
+```
+
+#Linear Discriminant Analysis (LDA)
+```{r}
+library(MASS)
+lda.model <- lda(default ~ balance, data = data)
+lda.model
+```
+
+```{r}
+summary(data$default)
+```
+
+```{r}
+No_balance_mean <- sum(data$balance[data$default == "No"]) / sum(data$default == "No")
+print(No_balance_mean)
+Yes_balance_mean <- sum(data$balance[data$default == "Yes"]) / sum(data$default == "Yes")
+print(Yes_balance_mean)
+```
+
+
+
+
+
+```{r}
+K = 2
+balance_var = (1 / (nrow(data) - K)) * (var(data$balance[data$default == "No"]) + var(data$balance[data$default == "Yes"]))
+print(balance_var)
+```
+
+
+```{r}
+lda.pred <- predict(lda.model)
+summary(lda.pred)
+
+#label
+head(lda.pred$class)
+
+#probability
+head(lda.pred$posterior)
+
+#score
+head(lda.pred$x)
+```
+
+
+```{r}
+table(lda.pred$class,data$default)
+
+#misclassification error
+mean(lda.pred$class!=data$default)
+
+```
+
+
+
+
+#Quadratic Discriminant Analysis (QDA)
+```{r}
+qda.model <- qda(default ~ balance, data = data)
+qda.model
+```
+
+```{r}
+qda.pred <- predict(qda.model)
+table(qda.pred$class,data$default)
+#misclassification error
+mean(qda.pred$class!=data$default)
+```
+
+
+```{r}
+qda.model=qda(default~student+balance,data=data)
+qda.pred=predict(qda.model)
+table(qda.pred$class,data$default)
+mean(qda.pred$class!=data$default)s
+```
+
+
+```{r}
+library(class)
+
+pred <- knn(as.matrix(data$balance), as.matrix(data$balance), data$default, k = 2)
+table(pred, data$default)
+#misclassification error
+mean(pred != data$default)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
