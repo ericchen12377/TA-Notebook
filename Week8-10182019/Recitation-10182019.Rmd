@@ -1,0 +1,122 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+# load the libraries
+library(caret)
+library(class)
+library(ISLR)
+# load the iris dataset
+data("Smarket")
+head(Smarket)
+```
+
+```{r}
+
+set.seed(300)
+#Spliting data as training and test set. Using createDataPartition() function from caret
+split=0.80
+trainIndex <- createDataPartition(y = Smarket$Direction, p = split, list = FALSE)
+data_train <- Smarket[ trainIndex, ]
+data_test <- Smarket[-trainIndex, ]
+#Checking distibution in origanl data and partitioned data
+prop.table(table(data_train$Direction)) * 100
+prop.table(table(data_test$Direction)) * 100
+prop.table(table(Smarket$Direction)) * 100
+```
+
+
+
+
+```{r}
+# train a knn model without tuning 
+pred <- knn(as.matrix(data_train[,1:8]), as.matrix(data_test[,1:8]), data_train[,9], k = 2)
+table(pred, data_test[,9])
+confusionMatrix(pred, data_test[,9])
+```
+
+
+
+
+
+
+
+```{r}
+data_trainX <- data_train[, names(data_train) != "Direction"]
+preProcValues <- preProcess(x = data_trainX, method = c("center", "scale"))
+preProcValues
+```
+
+
+
+
+
+```{r}
+#repeated CV
+set.seed(400)
+ctrl <- trainControl(method="LOOCV") #,classProbs=TRUE,summaryFunction = twoClassSummary)
+knnFit <- train(Direction ~ ., data = data_train, method = "knn", trControl = ctrl, preProcess = c("center","scale"), tuneLength = 10)
+
+#Output of kNN fit
+knnFit
+```
+
+
+```{r}
+#repeated CV
+set.seed(400)
+ctrl <- trainControl(method="cv", number = 5) #,classProbs=TRUE,summaryFunction = twoClassSummary)
+knnFit <- train(Direction ~ ., data = data_train, method = "knn", trControl = ctrl, preProcess = c("center","scale"), tuneLength = 10)
+
+#Output of kNN fit
+knnFit
+```
+
+
+
+```{r}
+#repeated CV
+set.seed(400)
+ctrl <- trainControl(method="repeatedcv", number = 5, repeats = 3) #,classProbs=TRUE,summaryFunction = twoClassSummary)
+knnFit <- train(Direction ~ ., data = data_train, method = "knn", trControl = ctrl, preProcess = c("center","scale"), tuneLength = 10)
+
+#Output of kNN fit
+knnFit
+```
+
+
+
+```{r}
+plot(knnFit)
+```
+
+
+
+
+
+```{r}
+knnPredict <- predict(knnFit, newdata = data_test )
+#Get the confusion matrix to see accuracy value and other parameter values
+confusionMatrix(knnPredict, data_test$Direction)
+#Accuracy
+mean(knnPredict == data_test$Direction)
+```
+
+
+
+
+```{r}
+library(pROC)
+knnPredict <- predict(knnFit, newdata = data_test, type = 'prob')
+knnROC <- roc(data_test$Direction, knnPredict[,"Down"])
+knnROC
+```
+
+
+```{r}
+plot(knnROC, type="S", print.thres= 0.5)
+```
+
+
