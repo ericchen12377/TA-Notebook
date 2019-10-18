@@ -26,3 +26,7 @@
 - Linear Discriminant Analysis
 - Quadratic Discriminant Analysis
 - K-Nearest Neighbors
+
+## Week 8, 10-18-2019
+- Cross validation
+- Model assessment
