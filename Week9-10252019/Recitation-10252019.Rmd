@@ -1,0 +1,106 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+```{r}
+# ensure the results are repeatable
+set.seed(7)
+# load the library
+library(ISLR)
+library(caret)
+```
+
+```{r}
+# load the data
+data("Credit")
+head(Credit)
+
+```
+
+```{r}
+# calculate correlation matrix
+correlationMatrix <- cor(PimaIndiansDiabetes[,1:8])
+# summarize the correlation matrix
+print(correlationMatrix)
+# find attributes that are highly corrected (ideally >0.75)
+highlyCorrelated <- findCorrelation(correlationMatrix, cutoff=0.5)
+# print indexes of highly correlated attributes
+print(highlyCorrelated)
+```
+
+
+
+
+
+
+
+```{r}
+library(leaps)
+#best subset selection
+lm_exhaustive <- regsubsets(Balance ~., data = Credit, nvmax = 11, method = "exhaustive")
+sum_lm <- summary(lm_exhaustive)
+sum_lm
+best_id <- which(sum_lm$bic == min(sum_lm$bic))
+best_id
+coef(sum_lm$obj, best_id)
+
+plot(sum_lm$bic, type = "b")
+```
+
+```{r}
+#backward
+lm_backward <- regsubsets(Balance ~., data = Credit, nvmax = 11, method = "backward")
+sum_lm <- summary(lm_backward)
+sum_lm
+best_id <- which(sum_lm$bic == min(sum_lm$bic))
+best_id
+coef(sum_lm$obj, best_id)
+
+plot(sum_lm$bic, type = "b")
+```
+
+
+```{r}
+#forward
+lm_forward <- regsubsets(Balance ~., data = Credit, nvmax = 11, method = "forward")
+sum_lm <- summary(lm_forward)
+sum_lm
+best_id <- which(sum_lm$bic == min(sum_lm$bic))
+best_id
+coef(sum_lm$obj, best_id)
+
+plot(sum_lm$bic, type = "b")
+```
+
+
+
+http://topepo.github.io/caret/train-models-by-tag.html#feature-selection-wrapper
+
+```{r}
+leapsGrid <-  expand.grid(nvmax = 11)
+model.lm <- train(Balance ~ .,
+                  data = Credit,
+                  method = "leapBackward",
+                  tuneGrid = leapsGrid)
+
+summary(model.lm)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
