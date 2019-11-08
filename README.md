@@ -30,3 +30,11 @@
 ## Week 8, 10-18-2019
 - Cross validation
 - Model assessment
+
+## Week 9, 10-25-2019
+- Feature selection
+
+## Week 10, no recitation
+
+## Week 11, 11-08-2019
+- Midterm part-II, R programming
