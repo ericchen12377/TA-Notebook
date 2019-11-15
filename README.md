@@ -38,3 +38,8 @@
 
 ## Week 11, 11-08-2019
 - Midterm part-II, R programming
+
+## Week 12, 11-15-2019
+- Regularization
+- PCA
+- Decision tree
