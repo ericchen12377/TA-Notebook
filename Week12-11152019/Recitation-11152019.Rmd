@@ -1,0 +1,135 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+```{r}
+# load the libraries
+library(caret)
+library(ISLR)
+load('Lec12_Data.RData')
+```
+```{r}
+library(glmnet)
+train.x.scale=scale(train.x)
+test.x.scale=scale(test.x)
+# Run ridge regression
+grid=10^(seq(-2,5,0.1))
+ridge.model=glmnet(train.x.scale,train.y,alpha=0,lambda=grid,thresh=1e-12)
+ridge.pred=predict(ridge.model,s=400,newx=test.x.scale)
+predict(ridge.model,s=400,type="coefficients")[1:12,]
+mean((ridge.pred-test.y)^2)
+```
+
+
+
+```{r}
+#Run ridge regression with cross-validation
+set.seed(10)
+ridge.cv=cv.glmnet(train.x.scale,train.y,alpha=0)
+lambda.best=ridge.cv$lambda.1se
+lambda.best
+ridge.pred.cv=predict(ridge.model,s=lambda.best,newx=test.x.scale)
+predict(ridge.model,s=lambda.best,type="coefficients")[1:12,]
+mean((ridge.pred.cv-test.y)^2)
+```
+
+
+```{r}
+# Run the LASSO
+# First run same data splitting
+grid=10^(seq(-2,5,0.1))
+lasso.model=glmnet(train.x.scale,train.y,alpha=1,lambda=grid,thresh=1e-12)
+lasso.pred=predict(lasso.model,s=0,newx=test.x.scale)
+mean((lasso.pred-test.y)^2)
+predict(lasso.model,type="coefficients",s=0)[1:12,]
+```
+
+```{r}
+# Run the LASSO with CV
+set.seed(11)
+lasso.cv=cv.glmnet(train.x.scale,train.y,alpha=1)
+lambda.best=lasso.cv$lambda.1se
+lambda.best
+lasso.pred.cv=predict(lasso.model,s=lambda.best,newx=test.x.scale)
+mean((lasso.pred.cv-test.y)^2)
+lasso.cv.exact=glmnet(train.x.scale,train.y,alpha=1,lambda=lambda.best,thresh=1e-12)
+predict(lasso.cv.exact,type="coefficients",s=lambda.best)[1:12,]
+```
+
+
+```{r}
+#PCA
+data=USArrests
+pca.obj=prcomp(data,scale=TRUE)
+pca.obj$rotation
+
+```
+
+```{r}
+ biplot(pca.obj,scale=0)
+#Flip sign and Biplot
+pca.obj$rotation=-pca.obj$rotation
+pca.obj$x=-pca.obj$x
+biplot(pca.obj,scale=0)
+```
+
+```{r}
+# Proportion of Variance Explained
+pve=pca.obj$sdev^2/sum(pca.obj$sdev^2)
+pve
+# Scree plot
+plot(pve,xlab="# of PCs", ylab="PVE",ylim=c(0,1),type='b')
+```
+
+
+```{r}
+# Build classification tree
+HeartData=read.csv("Heart.csv")
+library(tree)
+tree.model=tree(AHD~.,data=HeartData)
+plot(tree.model)
+text(tree.model) 
+```
+
+```{r}
+ table(HeartData$Thal)
+```
+
+
+
+```{r}
+# Pruning tree using cross-validation
+set.seed(2)
+cv.tree.model=cv.tree(tree.model,FUN=prune.misclass)
+cv.tree.model$size
+cv.tree.model$dev
+prune.tree.model=prune.misclass(tree.model,best=6)
+plot(prune.tree.model)
+text(prune.tree.model)
+# Prediction
+pred.prune.tree=predict(prune.tree.model, HeartData,type="class")
+table(pred.prune.tree, HeartData$AHD)
+
+```
+
+
+```{r}
+# Regression Tree
+library(ISLR)
+data=Hitters
+data=na.omit(data)
+data$Salary=log(data$Salary)
+tree.model=tree(Salary~.,data=data)
+set.seed(5)
+cv.tree.model=cv.tree(tree.model)
+cv.tree.model$size
+cv.tree.model$dev
+prune.tree.model=prune.tree(tree.model,best=6)
+pred.prune.tree=predict(prune.tree.model,data)
+mean((pred.prune.tree-data$Salary)^2)
+
+```
+
+
+
+
