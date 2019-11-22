@@ -1,0 +1,118 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+# import data
+x=c(1,1.5,3,5,3.5,4.5,3.5)
+y=c(1,2,4,7,5,5,4.5)
+data=cbind(x,y) 
+# k-means with specified initial centroids
+k.obj=kmeans(data,center=matrix(c(2.8,4,3.8,4.75),nrow=2),nstart=1)
+k.obj$cluster
+k.obj$centers
+
+```
+
+```{r}
+set.seed(1)
+# k-means with specified # of clusters
+k.obj=kmeans(data,center=2,nstart=20)
+k.obj$cluster
+k.obj$centers
+```
+
+```{r}
+# import data
+x=c(1,1.5,3,5,3.5,4.5,3.5)
+y=c(1,2,4,7,5,5,4.5)
+data=cbind(x,y)
+# hierarchical clustering with complete  
+hc.complete=hclust(dist(data),method="complete")
+plot(hc.complete,xlab="",sub="",main="HC with Complete Linkage") 
+# Determine the # of clusters by specifying cluster number
+cutree(hc.complete,k=3)
+# Determine the # of clusters by specifying cutting tree height  
+cutree(hc.complete,h=5)
+
+```
+
+
+
+```{r}
+# Import data
+library(randomForest)
+HeartData=read.csv("C:/Users/Desktop/nonlinear reg/Heart.csv")
+data=na.omit(HeartData)
+data=data[,-1]
+set.seed(2)
+train.index=sample(1:nrow(data),150)
+data.train=data[train.index,]
+data.test=data[-train.index,]
+# CART tree
+library(tree)
+tree.model=tree(AHD~.,data=data.train)
+set.seed(2)
+cv.tree.model=cv.tree(tree.model,FUN=prune.misclass)
+cv.tree.model$size
+cv.tree.model$dev
+
+# CART Tree (Cont’d)
+prune.tree.model=prune.misclass(tree.model,best=5) pred.prune.tree=predict(prune.tree.model,data.test,type="class") xx=table(pred.prune.tree,data.test$AHD) 
+##misclassification error
+(xx[1,2]+xx[2,1])/(xx[1,1]+xx[1,2]+xx[2,1]+xx[2,2])
+
+
+```
+
+```{r}
+# Bagging
+set.seed(2)
+bag.model=randomForest(AHD~.,data=data.train,mtry=13,importance=TRUE) bag.pred=predict(bag.model,newdata=data.test)
+xx=table(bag.pred,data.test$AHD)
+(xx[1,2]+xx[2,1])/(xx[1,1]+xx[1,2]+xx[2,1]+xx[2,2])
+# Importance 
+varImpPlot(bag.model)
+```
+
+
+```{r}
+# Random Forests
+set.seed(2)
+forest.model=randomForest(AHD~.,data=data.train,mtry=4, importance=TRUE)
+forest.pred=predict(forest.model,newdata=data.test)
+xx=table(forest.pred,data.test$AHD)
+(xx[1,2]+xx[2,1])/(xx[1,1]+xx[1,2]+xx[2,1]+xx[2,2])
+
+
+```
+
+```{r}
+# Boosting
+library(gbm)
+data[,14]=as.numeric(data[,14])-1
+set.seed(2)
+train.index=sample(1:nrow(data),150)
+data.train=data[train.index,] 
+data.test=data[-train.index,]
+```
+
+
+```{r}
+set.seed(2)
+boost.model=gbm(AHD~.,data=data.train,distribution="bernoulli", n.trees=2000,interaction.depth=3,shrinkage=0.15)
+pred.boost=predict(boost.model,newdata=data.test,n.trees=2000, type="response") pred.boost=ifelse(pred.boost<0.5,0,1)
+xx=table(pred.boost,data.test$AHD)
+(xx[1,2]+xx[2,1])/(xx[1,1]+xx[1,2]+xx[2,1]+xx[2,2])
+#importance
+summary(boost.model)
+```
+
+
+
+
+
+
+
+

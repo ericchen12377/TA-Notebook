@@ -210,7 +210,7 @@ $(document).ready(function () {
 </style>
 <script>
 $(document).ready(function () {
-  window.initializeSourceEmbed("Mid-Term-Exam-2019-Part-I-Rprogramming.Rmd");
+  window.initializeSourceEmbed("Recitation-11222019.Rmd");
   window.initializeCodeFolding("show" === "show");
 });
 </script>
@@ -241,226 +241,131 @@ $(document).ready(function () {
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudHJhaW4gPC0gcmVhZC5jc3YoZmlsZSA9ICd0cmFpbjIwMTkuY3N2JywgaGVhZGVyID0gVFJVRSwgc2VwID0gJywnKVxudGVzdCA8LSByZWFkLmNzdihmaWxlID0gJ3Rlc3QyMDE5LmNzdicsIGhlYWRlciA9IFRSVUUsIHNlcCA9ICcsJylcbmBgYCJ9 -->
-<pre class="r"><code>train &lt;- read.csv(file = 'train2019.csv', header = TRUE, sep = ',')
-test &lt;- read.csv(file = 'test2019.csv', header = TRUE, sep = ',')</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<div id="problem-1" class="section level1">
-<h1>Problem (1)</h1>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucHJlZC50ZXN0LmxkYSA8LSBwcmVkaWN0KG1vZGVsLmxkYSwgbmV3ZGF0YSA9IHRlc3QpXG50YWJsZShwcmVkLnRlc3QubGRhJGNsYXNzLCB0ZXN0JEhGKVxuXG5gYGAifQ== -->
-<pre class="r"><code>pred.test.lda &lt;- predict(model.lda, newdata = test)
-table(pred.test.lda$class, test$HF)
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBpbXBvcnQgZGF0YVxueD1jKDEsMS41LDMsNSwzLjUsNC41LDMuNSlcbnk9YygxLDIsNCw3LDUsNSw0LjUpXG5kYXRhPWNiaW5kKHgseSkgXG4jIGstbWVhbnMgd2l0aCBzcGVjaWZpZWQgaW5pdGlhbCBjZW50cm9pZHNcbmsub2JqPWttZWFucyhkYXRhLGNlbnRlcj1tYXRyaXgoYygyLjgsNCwzLjgsNC43NSksbnJvdz0yKSxuc3RhcnQ9MSlcbmsub2JqJGNsdXN0ZXJcbmsub2JqJGNlbnRlcnNcblxuYGBgIn0= -->
+<pre class="r"><code># import data
+x=c(1,1.5,3,5,3.5,4.5,3.5)
+y=c(1,2,4,7,5,5,4.5)
+data=cbind(x,y) 
+# k-means with specified initial centroids
+k.obj=kmeans(data,center=matrix(c(2.8,4,3.8,4.75),nrow=2),nstart=1)
+k.obj$cluster
+k.obj$centers
 </code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiICAgICBcbiAgICAgIE5vIFllc1xuICBObyAgMTcgICA1XG4gIFllcyAgOCAgMjNcbiJ9 -->
-<pre><code>     
-      No Yes
-  No  17   5
-  Yes  8  23</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubWVhbihwcmVkLnRlc3QubGRhJGNsYXNzIT10ZXN0JEhGKVxuYGBgIn0= -->
-<pre class="r"><code>mean(pred.test.lda$class!=test$HF)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDAuMjQ1MjgzXG4ifQ== -->
-<pre><code>[1] 0.245283</code></pre>
-<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-</div>
-<div id="problem-2" class="section level1">
-<h1>Problem (2)</h1>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShNQVNTKVxuI1RyYWluaW5nXG5tb2RlbC5xZGEgPC0gcWRhKEhGIH4uLCBkYXRhID0gdHJhaW4pXG5wcmVkLnRyYWluLnFkYSA8LSBwcmVkaWN0KG1vZGVsLnFkYSwgbmV3ZGF0YSA9IHRyYWluKVxudGFibGUocHJlZC50cmFpbi5xZGEkY2xhc3MsIHRyYWluJEhGKVxuYGBgIn0= -->
-<pre class="r"><code>library(MASS)
-#Training
-model.qda &lt;- qda(HF ~., data = train)
-pred.train.qda &lt;- predict(model.qda, newdata = train)
-table(pred.train.qda$class, train$HF)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2V0LnNlZWQoMSlcbiMgay1tZWFucyB3aXRoIHNwZWNpZmllZCAjIG9mIGNsdXN0ZXJzXG5rLm9iaj1rbWVhbnMoZGF0YSxjZW50ZXI9Mixuc3RhcnQ9MjApXG5rLm9iaiRjbHVzdGVyXG5rLm9iaiRjZW50ZXJzXG5gYGAifQ== -->
+<pre class="r"><code>set.seed(1)
+# k-means with specified # of clusters
+k.obj=kmeans(data,center=2,nstart=20)
+k.obj$cluster
+k.obj$centers</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiICAgICBcbiAgICAgICBObyBZZXNcbiAgTm8gICA3OCAgMjFcbiAgWWVzICAzNSAxMTZcbiJ9 -->
-<pre><code>     
-       No Yes
-  No   78  21
-  Yes  35 116</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubWVhbihwcmVkLnRyYWluLnFkYSRjbGFzcyE9dHJhaW4kSEYpXG5gYGAifQ== -->
-<pre class="r"><code>mean(pred.train.qda$class!=train$HF)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDAuMjI0XG4ifQ== -->
-<pre><code>[1] 0.224</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI1Rlc3RpbmdcbnByZWQudGVzdC5xZGEgPC0gcHJlZGljdChtb2RlbC5xZGEsIG5ld2RhdGEgPSB0ZXN0KVxudGFibGUocHJlZC50ZXN0LnFkYSRjbGFzcywgdGVzdCRIRilcbmBgYCJ9 -->
-<pre class="r"><code>#Testing
-pred.test.qda &lt;- predict(model.qda, newdata = test)
-table(pred.test.qda$class, test$HF)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiICAgICBcbiAgICAgIE5vIFllc1xuICBObyAgMTYgICA1XG4gIFllcyAgOSAgMjNcbiJ9 -->
-<pre><code>     
-      No Yes
-  No  16   5
-  Yes  9  23</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubWVhbihwcmVkLnRlc3QucWRhJGNsYXNzIT10ZXN0JEhGKVxuYGBgIn0= -->
-<pre class="r"><code>mean(pred.test.qda$class!=test$HF)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDAuMjY0MTUwOVxuIn0= -->
-<pre><code>[1] 0.2641509</code></pre>
-<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-</div>
-<div id="problem-3" class="section level1">
-<h1>Problem (3)</h1>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI1RyYWluaW5nXG5tb2RlbC5sb2dpc3RpYyA8LSBnbG0oSEYgfi4sIGRhdGEgPSB0cmFpbiwgZmFtaWx5ID0gJ2Jpbm9taWFsJylcbnByZWQudHJhaW4ubG9naXN0aWMgPC0gcHJlZGljdChtb2RlbC5sb2dpc3RpYywgbmV3ZGF0YSA9IHRyYWluLCB0eXBlID0gJ3Jlc3BvbnNlJylcbnByZWQudHJhaW4ubG9naXN0aWMuY2xhc3MgPC0gcmVwKCdObycsIG5yb3codHJhaW4pKVxucHJlZC50cmFpbi5sb2dpc3RpYy5jbGFzc1twcmVkLnRyYWluLmxvZ2lzdGljID49IDAuNV0gPSAnWWVzJ1xudGFibGUocHJlZC50cmFpbi5sb2dpc3RpYy5jbGFzcywgdHJhaW4kSEYpXG5gYGAifQ== -->
-<pre class="r"><code>#Training
-model.logistic &lt;- glm(HF ~., data = train, family = 'binomial')
-pred.train.logistic &lt;- predict(model.logistic, newdata = train, type = 'response')
-pred.train.logistic.class &lt;- rep('No', nrow(train))
-pred.train.logistic.class[pred.train.logistic &gt;= 0.5] = 'Yes'
-table(pred.train.logistic.class, train$HF)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBpbXBvcnQgZGF0YVxueD1jKDEsMS41LDMsNSwzLjUsNC41LDMuNSlcbnk9YygxLDIsNCw3LDUsNSw0LjUpXG5kYXRhPWNiaW5kKHgseSlcbiMgaGllcmFyY2hpY2FsIGNsdXN0ZXJpbmcgd2l0aCBjb21wbGV0ZSAgXG5oYy5jb21wbGV0ZT1oY2x1c3QoZGlzdChkYXRhKSxtZXRob2Q9XCJjb21wbGV0ZVwiKVxucGxvdChoYy5jb21wbGV0ZSx4bGFiPVwiXCIsc3ViPVwiXCIsbWFpbj1cIkhDIHdpdGggQ29tcGxldGUgTGlua2FnZVwiKSBcbiMgRGV0ZXJtaW5lIHRoZSAjIG9mIGNsdXN0ZXJzIGJ5IHNwZWNpZnlpbmcgY2x1c3RlciBudW1iZXJcbmN1dHJlZShoYy5jb21wbGV0ZSxrPTMpXG4jIERldGVybWluZSB0aGUgIyBvZiBjbHVzdGVycyBieSBzcGVjaWZ5aW5nIGN1dHRpbmcgdHJlZSBoZWlnaHQgIFxuY3V0cmVlKGhjLmNvbXBsZXRlLGg9NSlcblxuYGBgIn0= -->
+<pre class="r"><code># import data
+x=c(1,1.5,3,5,3.5,4.5,3.5)
+y=c(1,2,4,7,5,5,4.5)
+data=cbind(x,y)
+# hierarchical clustering with complete  
+hc.complete=hclust(dist(data),method=&quot;complete&quot;)
+plot(hc.complete,xlab=&quot;&quot;,sub=&quot;&quot;,main=&quot;HC with Complete Linkage&quot;) 
+# Determine the # of clusters by specifying cluster number
+cutree(hc.complete,k=3)
+# Determine the # of clusters by specifying cutting tree height  
+cutree(hc.complete,h=5)
+</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiICAgICAgICAgICAgICAgICAgICAgICAgIFxucHJlZC50cmFpbi5sb2dpc3RpYy5jbGFzcyAgTm8gWWVzXG4gICAgICAgICAgICAgICAgICAgICAgTm8gICA4MSAgMjNcbiAgICAgICAgICAgICAgICAgICAgICBZZXMgIDMyIDExNFxuIn0= -->
-<pre><code>                         
-pred.train.logistic.class  No Yes
-                      No   81  23
-                      Yes  32 114</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubWVhbihwcmVkLnRyYWluLmxvZ2lzdGljLmNsYXNzIT10cmFpbiRIRilcbmBgYCJ9 -->
-<pre class="r"><code>mean(pred.train.logistic.class!=train$HF)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDAuMjJcbiJ9 -->
-<pre><code>[1] 0.22</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI1Rlc3RpbmdcbnByZWQudGVzdC5sb2dpc3RpYyA8LSBwcmVkaWN0KG1vZGVsLmxvZ2lzdGljLCBuZXdkYXRhID0gdGVzdCwgdHlwZSA9ICdyZXNwb25zZScpXG5wcmVkLnRlc3QubG9naXN0aWMuY2xhc3MgPC0gcmVwKCdObycsIG5yb3codGVzdCkpXG5wcmVkLnRlc3QubG9naXN0aWMuY2xhc3NbcHJlZC50ZXN0LmxvZ2lzdGljID49IDAuNV0gPSAnWWVzJ1xudGFibGUocHJlZC50ZXN0LmxvZ2lzdGljLmNsYXNzLCB0ZXN0JEhGKVxuYGBgIn0= -->
-<pre class="r"><code>#Testing
-pred.test.logistic &lt;- predict(model.logistic, newdata = test, type = 'response')
-pred.test.logistic.class &lt;- rep('No', nrow(test))
-pred.test.logistic.class[pred.test.logistic &gt;= 0.5] = 'Yes'
-table(pred.test.logistic.class, test$HF)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiICAgICAgICAgICAgICAgICAgICAgICAgXG5wcmVkLnRlc3QubG9naXN0aWMuY2xhc3MgTm8gWWVzXG4gICAgICAgICAgICAgICAgICAgICBObyAgMTYgICA0XG4gICAgICAgICAgICAgICAgICAgICBZZXMgIDkgIDI0XG4ifQ== -->
-<pre><code>                        
-pred.test.logistic.class No Yes
-                     No  16   4
-                     Yes  9  24</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubWVhbihwcmVkLnRlc3QubG9naXN0aWMuY2xhc3MhPXRlc3QkSEYpXG5gYGAifQ== -->
-<pre class="r"><code>mean(pred.test.logistic.class!=test$HF)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDAuMjQ1MjgzXG4ifQ== -->
-<pre><code>[1] 0.245283</code></pre>
-<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-</div>
-<div id="problem-4" class="section level1">
-<h1>Problem (4)</h1>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI1RyYWluaW5nXG5tb2RlbC5sb2dpc3RpYyA8LSBnbG0oSEYgfiBBZ2UgKyBHZW5kZXIgKyBDcCArIFRoYWxhY2gsIGRhdGEgPSB0cmFpbiwgZmFtaWx5ID0gJ2Jpbm9taWFsJylcbnByZWQudHJhaW4ubG9naXN0aWMgPC0gcHJlZGljdChtb2RlbC5sb2dpc3RpYywgbmV3ZGF0YSA9IHRyYWluLCB0eXBlID0gJ3Jlc3BvbnNlJylcbnByZWQudHJhaW4ubG9naXN0aWMuY2xhc3MgPC0gcmVwKCdObycsIG5yb3codHJhaW4pKVxucHJlZC50cmFpbi5sb2dpc3RpYy5jbGFzc1twcmVkLnRyYWluLmxvZ2lzdGljID49IDAuNV0gPSAnWWVzJ1xudGFibGUocHJlZC50cmFpbi5sb2dpc3RpYy5jbGFzcywgdHJhaW4kSEYpXG5gYGAifQ== -->
-<pre class="r"><code>#Training
-model.logistic &lt;- glm(HF ~ Age + Gender + Cp + Thalach, data = train, family = 'binomial')
-pred.train.logistic &lt;- predict(model.logistic, newdata = train, type = 'response')
-pred.train.logistic.class &lt;- rep('No', nrow(train))
-pred.train.logistic.class[pred.train.logistic &gt;= 0.5] = 'Yes'
-table(pred.train.logistic.class, train$HF)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiICAgICAgICAgICAgICAgICAgICAgICAgIFxucHJlZC50cmFpbi5sb2dpc3RpYy5jbGFzcyAgTm8gWWVzXG4gICAgICAgICAgICAgICAgICAgICAgTm8gICA3OSAgMjRcbiAgICAgICAgICAgICAgICAgICAgICBZZXMgIDM0IDExM1xuIn0= -->
-<pre><code>                         
-pred.train.logistic.class  No Yes
-                      No   79  24
-                      Yes  34 113</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubWVhbihwcmVkLnRyYWluLmxvZ2lzdGljLmNsYXNzIT10cmFpbiRIRilcbmBgYCJ9 -->
-<pre class="r"><code>mean(pred.train.logistic.class!=train$HF)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDAuMjMyXG4ifQ== -->
-<pre><code>[1] 0.232</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI1Rlc3RpbmdcbnByZWQudGVzdC5sb2dpc3RpYyA8LSBwcmVkaWN0KG1vZGVsLmxvZ2lzdGljLCBuZXdkYXRhID0gdGVzdCwgdHlwZSA9ICdyZXNwb25zZScpXG5wcmVkLnRlc3QubG9naXN0aWMuY2xhc3MgPC0gcmVwKCdObycsIG5yb3codGVzdCkpXG5wcmVkLnRlc3QubG9naXN0aWMuY2xhc3NbcHJlZC50ZXN0LmxvZ2lzdGljID49IDAuNV0gPSAnWWVzJ1xudGFibGUocHJlZC50ZXN0LmxvZ2lzdGljLmNsYXNzLCB0ZXN0JEhGKVxuYGBgIn0= -->
-<pre class="r"><code>#Testing
-pred.test.logistic &lt;- predict(model.logistic, newdata = test, type = 'response')
-pred.test.logistic.class &lt;- rep('No', nrow(test))
-pred.test.logistic.class[pred.test.logistic &gt;= 0.5] = 'Yes'
-table(pred.test.logistic.class, test$HF)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiICAgICAgICAgICAgICAgICAgICAgICAgXG5wcmVkLnRlc3QubG9naXN0aWMuY2xhc3MgTm8gWWVzXG4gICAgICAgICAgICAgICAgICAgICBObyAgMTUgICA1XG4gICAgICAgICAgICAgICAgICAgICBZZXMgMTAgIDIzXG4ifQ== -->
-<pre><code>                        
-pred.test.logistic.class No Yes
-                     No  15   5
-                     Yes 10  23</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubWVhbihwcmVkLnRlc3QubG9naXN0aWMuY2xhc3MhPXRlc3QkSEYpXG5gYGAifQ== -->
-<pre class="r"><code>mean(pred.test.logistic.class!=test$HF)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDAuMjgzMDE4OVxuIn0= -->
-<pre><code>[1] 0.2830189</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-</div>
-<div id="problem-5" class="section level1">
-<h1>Problem (5)</h1>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShjbGFzcylcbiNUcmFpbmluZ1xuc2V0LnNlZWQoMjAxOSlcbnByZWQudHJhaW4ua25uIDwtIGtubih0cmFpblssIDE6NV0sIHRyYWluWywgMTo1XSwgdHJhaW5bLCA2XSwgayA9IDMpXG50YWJsZShwcmVkLnRyYWluLmtubiwgdHJhaW4kSEYpXG5gYGAifQ== -->
-<pre class="r"><code>library(class)
-#Training
-set.seed(2019)
-pred.train.knn &lt;- knn(train[, 1:5], train[, 1:5], train[, 6], k = 3)
-table(pred.train.knn, train$HF)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiICAgICAgICAgICAgICBcbnByZWQudHJhaW4ua25uICBObyBZZXNcbiAgICAgICAgICAgTm8gICA5MCAgMjlcbiAgICAgICAgICAgWWVzICAyMyAxMDhcbiJ9 -->
-<pre><code>              
-pred.train.knn  No Yes
-           No   90  29
-           Yes  23 108</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubWVhbihwcmVkLnRyYWluLmtubiAhPSB0cmFpbiRIRilcbmBgYCJ9 -->
-<pre class="r"><code>mean(pred.train.knn != train$HF)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDAuMjA4XG4ifQ== -->
-<pre><code>[1] 0.208</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI1Rlc3RpbmdcbiNUcmFpbmluZ1xuc2V0LnNlZWQoMjAxOSlcbnByZWQudGVzdC5rbm4gPC0ga25uKHRyYWluWywgMTo1XSwgdGVzdFssIDE6NV0sIHRyYWluWywgNl0sIGsgPSAzKVxudGFibGUocHJlZC50ZXN0LmtubiwgdGVzdCRIRilcbmBgYCJ9 -->
-<pre class="r"><code>#Testing
-#Training
-set.seed(2019)
-pred.test.knn &lt;- knn(train[, 1:5], test[, 1:5], train[, 6], k = 3)
-table(pred.test.knn, test$HF)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiICAgICAgICAgICAgIFxucHJlZC50ZXN0LmtubiBObyBZZXNcbiAgICAgICAgICBObyAgMTcgIDEwXG4gICAgICAgICAgWWVzICA4ICAxOFxuIn0= -->
-<pre><code>             
-pred.test.knn No Yes
-          No  17  10
-          Yes  8  18</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubWVhbihwcmVkLnRlc3Qua25uICE9IHRlc3QkSEYpXG5gYGAifQ== -->
-<pre class="r"><code>mean(pred.test.knn != test$HF)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDAuMzM5NjIyNlxuIn0= -->
-<pre><code>[1] 0.3396226</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-</div>
-<div id="problem-6" class="section level1">
-<h1>Problem (6)</h1>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<!-- rnb-text-end -->
-</div>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBJbXBvcnQgZGF0YVxubGlicmFyeShyYW5kb21Gb3Jlc3QpXG5IZWFydERhdGE9cmVhZC5jc3YoXCJDOi9Vc2Vycy9EZXNrdG9wL25vbmxpbmVhciByZWcvSGVhcnQuY3N2XCIpXG5kYXRhPW5hLm9taXQoSGVhcnREYXRhKVxuZGF0YT1kYXRhWywtMV1cbnNldC5zZWVkKDIpXG50cmFpbi5pbmRleD1zYW1wbGUoMTpucm93KGRhdGEpLDE1MClcbmRhdGEudHJhaW49ZGF0YVt0cmFpbi5pbmRleCxdXG5kYXRhLnRlc3Q9ZGF0YVstdHJhaW4uaW5kZXgsXVxuIyBDQVJUIHRyZWVcbmxpYnJhcnkodHJlZSlcbnRyZWUubW9kZWw9dHJlZShBSER+LixkYXRhPWRhdGEudHJhaW4pXG5zZXQuc2VlZCgyKVxuY3YudHJlZS5tb2RlbD1jdi50cmVlKHRyZWUubW9kZWwsRlVOPXBydW5lLm1pc2NsYXNzKVxuY3YudHJlZS5tb2RlbCRzaXplXG5jdi50cmVlLm1vZGVsJGRldlxuXG4jIENBUlQgVHJlZSAoQ29udOKAmWQpXG5wcnVuZS50cmVlLm1vZGVsPXBydW5lLm1pc2NsYXNzKHRyZWUubW9kZWwsYmVzdD01KSBwcmVkLnBydW5lLnRyZWU9cHJlZGljdChwcnVuZS50cmVlLm1vZGVsLGRhdGEudGVzdCx0eXBlPVwiY2xhc3NcIikgeHg9dGFibGUocHJlZC5wcnVuZS50cmVlLGRhdGEudGVzdCRBSEQpIFxuIyNtaXNjbGFzc2lmaWNhdGlvbiBlcnJvclxuKHh4WzEsMl0reHhbMiwxXSkvKHh4WzEsMV0reHhbMSwyXSt4eFsyLDFdK3h4WzIsMl0pXG5cblxuYGBgIn0= -->
+<pre class="r"><code># Import data
+library(randomForest)
+HeartData=read.csv(&quot;C:/Users/Desktop/nonlinear reg/Heart.csv&quot;)
+data=na.omit(HeartData)
+data=data[,-1]
+set.seed(2)
+train.index=sample(1:nrow(data),150)
+data.train=data[train.index,]
+data.test=data[-train.index,]
+# CART tree
+library(tree)
+tree.model=tree(AHD~.,data=data.train)
+set.seed(2)
+cv.tree.model=cv.tree(tree.model,FUN=prune.misclass)
+cv.tree.model$size
+cv.tree.model$dev
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIlIgTm90ZWJvb2siDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCi0tLQ0KDQpgYGB7cn0NCnRyYWluIDwtIHJlYWQuY3N2KGZpbGUgPSAndHJhaW4yMDE5LmNzdicsIGhlYWRlciA9IFRSVUUsIHNlcCA9ICcsJykNCnRlc3QgPC0gcmVhZC5jc3YoZmlsZSA9ICd0ZXN0MjAxOS5jc3YnLCBoZWFkZXIgPSBUUlVFLCBzZXAgPSAnLCcpDQpgYGANCg0KIyBQcm9ibGVtICgxKQ0KYGBge3J9DQpsaWJyYXJ5KE1BU1MpDQojVHJhaW5pbmcNCm1vZGVsLmxkYSA8LSBsZGEoSEYgfi4sIGRhdGEgPSB0cmFpbikNCnByZWQudHJhaW4ubGRhIDwtIHByZWRpY3QobW9kZWwubGRhLCBuZXdkYXRhID0gdHJhaW4pDQp0YWJsZShwcmVkLnRyYWluLmxkYSRjbGFzcywgdHJhaW4kSEYpDQptZWFuKHByZWQudHJhaW4ubGRhJGNsYXNzIT10cmFpbiRIRikNCg0KI1Rlc3RpbmcNCnByZWQudGVzdC5sZGEgPC0gcHJlZGljdChtb2RlbC5sZGEsIG5ld2RhdGEgPSB0ZXN0KQ0KdGFibGUocHJlZC50ZXN0LmxkYSRjbGFzcywgdGVzdCRIRikNCm1lYW4ocHJlZC50ZXN0LmxkYSRjbGFzcyE9dGVzdCRIRikNCmBgYA0KDQoNCg0KIyBQcm9ibGVtICgyKQ0KYGBge3J9DQpsaWJyYXJ5KE1BU1MpDQojVHJhaW5pbmcNCm1vZGVsLnFkYSA8LSBxZGEoSEYgfi4sIGRhdGEgPSB0cmFpbikNCnByZWQudHJhaW4ucWRhIDwtIHByZWRpY3QobW9kZWwucWRhLCBuZXdkYXRhID0gdHJhaW4pDQp0YWJsZShwcmVkLnRyYWluLnFkYSRjbGFzcywgdHJhaW4kSEYpDQptZWFuKHByZWQudHJhaW4ucWRhJGNsYXNzIT10cmFpbiRIRikNCg0KI1Rlc3RpbmcNCnByZWQudGVzdC5xZGEgPC0gcHJlZGljdChtb2RlbC5xZGEsIG5ld2RhdGEgPSB0ZXN0KQ0KdGFibGUocHJlZC50ZXN0LnFkYSRjbGFzcywgdGVzdCRIRikNCm1lYW4ocHJlZC50ZXN0LnFkYSRjbGFzcyE9dGVzdCRIRikNCmBgYA0KDQoNCiMgUHJvYmxlbSAoMykNCmBgYHtyfQ0KI1RyYWluaW5nDQptb2RlbC5sb2dpc3RpYyA8LSBnbG0oSEYgfi4sIGRhdGEgPSB0cmFpbiwgZmFtaWx5ID0gJ2Jpbm9taWFsJykNCnByZWQudHJhaW4ubG9naXN0aWMgPC0gcHJlZGljdChtb2RlbC5sb2dpc3RpYywgbmV3ZGF0YSA9IHRyYWluLCB0eXBlID0gJ3Jlc3BvbnNlJykNCnByZWQudHJhaW4ubG9naXN0aWMuY2xhc3MgPC0gcmVwKCdObycsIG5yb3codHJhaW4pKQ0KcHJlZC50cmFpbi5sb2dpc3RpYy5jbGFzc1twcmVkLnRyYWluLmxvZ2lzdGljID49IDAuNV0gPSAnWWVzJw0KdGFibGUocHJlZC50cmFpbi5sb2dpc3RpYy5jbGFzcywgdHJhaW4kSEYpDQptZWFuKHByZWQudHJhaW4ubG9naXN0aWMuY2xhc3MhPXRyYWluJEhGKQ0KDQojVGVzdGluZw0KcHJlZC50ZXN0LmxvZ2lzdGljIDwtIHByZWRpY3QobW9kZWwubG9naXN0aWMsIG5ld2RhdGEgPSB0ZXN0LCB0eXBlID0gJ3Jlc3BvbnNlJykNCnByZWQudGVzdC5sb2dpc3RpYy5jbGFzcyA8LSByZXAoJ05vJywgbnJvdyh0ZXN0KSkNCnByZWQudGVzdC5sb2dpc3RpYy5jbGFzc1twcmVkLnRlc3QubG9naXN0aWMgPj0gMC41XSA9ICdZZXMnDQp0YWJsZShwcmVkLnRlc3QubG9naXN0aWMuY2xhc3MsIHRlc3QkSEYpDQptZWFuKHByZWQudGVzdC5sb2dpc3RpYy5jbGFzcyE9dGVzdCRIRikNCmBgYA0KDQoNCg0KIyBQcm9ibGVtICg0KQ0KYGBge3J9DQojVHJhaW5pbmcNCm1vZGVsLmxvZ2lzdGljIDwtIGdsbShIRiB+IEFnZSArIEdlbmRlciArIENwICsgVGhhbGFjaCwgZGF0YSA9IHRyYWluLCBmYW1pbHkgPSAnYmlub21pYWwnKQ0KcHJlZC50cmFpbi5sb2dpc3RpYyA8LSBwcmVkaWN0KG1vZGVsLmxvZ2lzdGljLCBuZXdkYXRhID0gdHJhaW4sIHR5cGUgPSAncmVzcG9uc2UnKQ0KcHJlZC50cmFpbi5sb2dpc3RpYy5jbGFzcyA8LSByZXAoJ05vJywgbnJvdyh0cmFpbikpDQpwcmVkLnRyYWluLmxvZ2lzdGljLmNsYXNzW3ByZWQudHJhaW4ubG9naXN0aWMgPj0gMC41XSA9ICdZZXMnDQp0YWJsZShwcmVkLnRyYWluLmxvZ2lzdGljLmNsYXNzLCB0cmFpbiRIRikNCm1lYW4ocHJlZC50cmFpbi5sb2dpc3RpYy5jbGFzcyE9dHJhaW4kSEYpDQoNCiNUZXN0aW5nDQpwcmVkLnRlc3QubG9naXN0aWMgPC0gcHJlZGljdChtb2RlbC5sb2dpc3RpYywgbmV3ZGF0YSA9IHRlc3QsIHR5cGUgPSAncmVzcG9uc2UnKQ0KcHJlZC50ZXN0LmxvZ2lzdGljLmNsYXNzIDwtIHJlcCgnTm8nLCBucm93KHRlc3QpKQ0KcHJlZC50ZXN0LmxvZ2lzdGljLmNsYXNzW3ByZWQudGVzdC5sb2dpc3RpYyA+PSAwLjVdID0gJ1llcycNCnRhYmxlKHByZWQudGVzdC5sb2dpc3RpYy5jbGFzcywgdGVzdCRIRikNCm1lYW4ocHJlZC50ZXN0LmxvZ2lzdGljLmNsYXNzIT10ZXN0JEhGKQ0KYGBgDQoNCg0KDQojIFByb2JsZW0gKDUpDQpgYGB7cn0NCmxpYnJhcnkoY2xhc3MpDQojVHJhaW5pbmcNCnNldC5zZWVkKDIwMTkpDQpwcmVkLnRyYWluLmtubiA8LSBrbm4odHJhaW5bLCAxOjVdLCB0cmFpblssIDE6NV0sIHRyYWluWywgNl0sIGsgPSAzKQ0KdGFibGUocHJlZC50cmFpbi5rbm4sIHRyYWluJEhGKQ0KbWVhbihwcmVkLnRyYWluLmtubiAhPSB0cmFpbiRIRikNCg0KI1Rlc3RpbmcNCiNUcmFpbmluZw0Kc2V0LnNlZWQoMjAxOSkNCnByZWQudGVzdC5rbm4gPC0ga25uKHRyYWluWywgMTo1XSwgdGVzdFssIDE6NV0sIHRyYWluWywgNl0sIGsgPSAzKQ0KdGFibGUocHJlZC50ZXN0LmtubiwgdGVzdCRIRikNCm1lYW4ocHJlZC50ZXN0LmtubiAhPSB0ZXN0JEhGKQ0KYGBgDQoNCg0KIyBQcm9ibGVtICg2KQ0KYGBge3J9DQoNCmBgYA0KDQoNCg0KDQoNCg0KDQoNCg==</div>
+# CART Tree (Cont’d)
+prune.tree.model=prune.misclass(tree.model,best=5) pred.prune.tree=predict(prune.tree.model,data.test,type=&quot;class&quot;) xx=table(pred.prune.tree,data.test$AHD) 
+##misclassification error
+(xx[1,2]+xx[2,1])/(xx[1,1]+xx[1,2]+xx[2,1]+xx[2,2])
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBCYWdnaW5nXG5zZXQuc2VlZCgyKVxuYmFnLm1vZGVsPXJhbmRvbUZvcmVzdChBSER+LixkYXRhPWRhdGEudHJhaW4sbXRyeT0xMyxpbXBvcnRhbmNlPVRSVUUpIGJhZy5wcmVkPXByZWRpY3QoYmFnLm1vZGVsLG5ld2RhdGE9ZGF0YS50ZXN0KVxueHg9dGFibGUoYmFnLnByZWQsZGF0YS50ZXN0JEFIRClcbih4eFsxLDJdK3h4WzIsMV0pLyh4eFsxLDFdK3h4WzEsMl0reHhbMiwxXSt4eFsyLDJdKVxuIyBJbXBvcnRhbmNlIFxudmFySW1wUGxvdChiYWcubW9kZWwpXG5gYGAifQ== -->
+<pre class="r"><code># Bagging
+set.seed(2)
+bag.model=randomForest(AHD~.,data=data.train,mtry=13,importance=TRUE) bag.pred=predict(bag.model,newdata=data.test)
+xx=table(bag.pred,data.test$AHD)
+(xx[1,2]+xx[2,1])/(xx[1,1]+xx[1,2]+xx[2,1]+xx[2,2])
+# Importance 
+varImpPlot(bag.model)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBSYW5kb20gRm9yZXN0c1xuc2V0LnNlZWQoMilcbmZvcmVzdC5tb2RlbD1yYW5kb21Gb3Jlc3QoQUhEfi4sZGF0YT1kYXRhLnRyYWluLG10cnk9NCwgaW1wb3J0YW5jZT1UUlVFKVxuZm9yZXN0LnByZWQ9cHJlZGljdChmb3Jlc3QubW9kZWwsbmV3ZGF0YT1kYXRhLnRlc3QpXG54eD10YWJsZShmb3Jlc3QucHJlZCxkYXRhLnRlc3QkQUhEKVxuKHh4WzEsMl0reHhbMiwxXSkvKHh4WzEsMV0reHhbMSwyXSt4eFsyLDFdK3h4WzIsMl0pXG5cblxuYGBgIn0= -->
+<pre class="r"><code># Random Forests
+set.seed(2)
+forest.model=randomForest(AHD~.,data=data.train,mtry=4, importance=TRUE)
+forest.pred=predict(forest.model,newdata=data.test)
+xx=table(forest.pred,data.test$AHD)
+(xx[1,2]+xx[2,1])/(xx[1,1]+xx[1,2]+xx[2,1]+xx[2,2])
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBCb29zdGluZ1xubGlicmFyeShnYm0pXG5kYXRhWywxNF09YXMubnVtZXJpYyhkYXRhWywxNF0pLTFcbnNldC5zZWVkKDIpXG50cmFpbi5pbmRleD1zYW1wbGUoMTpucm93KGRhdGEpLDE1MClcbmRhdGEudHJhaW49ZGF0YVt0cmFpbi5pbmRleCxdIFxuZGF0YS50ZXN0PWRhdGFbLXRyYWluLmluZGV4LF1cbmBgYCJ9 -->
+<pre class="r"><code># Boosting
+library(gbm)
+data[,14]=as.numeric(data[,14])-1
+set.seed(2)
+train.index=sample(1:nrow(data),150)
+data.train=data[train.index,] 
+data.test=data[-train.index,]</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2V0LnNlZWQoMilcbmJvb3N0Lm1vZGVsPWdibShBSER+LixkYXRhPWRhdGEudHJhaW4sZGlzdHJpYnV0aW9uPVwiYmVybm91bGxpXCIsIG4udHJlZXM9MjAwMCxpbnRlcmFjdGlvbi5kZXB0aD0zLHNocmlua2FnZT0wLjE1KVxucHJlZC5ib29zdD1wcmVkaWN0KGJvb3N0Lm1vZGVsLG5ld2RhdGE9ZGF0YS50ZXN0LG4udHJlZXM9MjAwMCwgdHlwZT1cInJlc3BvbnNlXCIpIHByZWQuYm9vc3Q9aWZlbHNlKHByZWQuYm9vc3Q8MC41LDAsMSlcbnh4PXRhYmxlKHByZWQuYm9vc3QsZGF0YS50ZXN0JEFIRClcbih4eFsxLDJdK3h4WzIsMV0pLyh4eFsxLDFdK3h4WzEsMl0reHhbMiwxXSt4eFsyLDJdKVxuI2ltcG9ydGFuY2VcbnN1bW1hcnkoYm9vc3QubW9kZWwpXG5gYGAifQ== -->
+<pre class="r"><code>set.seed(2)
+boost.model=gbm(AHD~.,data=data.train,distribution=&quot;bernoulli&quot;, n.trees=2000,interaction.depth=3,shrinkage=0.15)
+pred.boost=predict(boost.model,newdata=data.test,n.trees=2000, type=&quot;response&quot;) pred.boost=ifelse(pred.boost&lt;0.5,0,1)
+xx=table(pred.boost,data.test$AHD)
+(xx[1,2]+xx[2,1])/(xx[1,1]+xx[1,2]+xx[2,1]+xx[2,2])
+#importance
+summary(boost.model)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIlIgTm90ZWJvb2siDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCi0tLQ0KDQpgYGB7cn0NCiMgaW1wb3J0IGRhdGENCng9YygxLDEuNSwzLDUsMy41LDQuNSwzLjUpDQp5PWMoMSwyLDQsNyw1LDUsNC41KQ0KZGF0YT1jYmluZCh4LHkpIA0KIyBrLW1lYW5zIHdpdGggc3BlY2lmaWVkIGluaXRpYWwgY2VudHJvaWRzDQprLm9iaj1rbWVhbnMoZGF0YSxjZW50ZXI9bWF0cml4KGMoMi44LDQsMy44LDQuNzUpLG5yb3c9MiksbnN0YXJ0PTEpDQprLm9iaiRjbHVzdGVyDQprLm9iaiRjZW50ZXJzDQoNCmBgYA0KDQpgYGB7cn0NCnNldC5zZWVkKDEpDQojIGstbWVhbnMgd2l0aCBzcGVjaWZpZWQgIyBvZiBjbHVzdGVycw0Kay5vYmo9a21lYW5zKGRhdGEsY2VudGVyPTIsbnN0YXJ0PTIwKQ0Kay5vYmokY2x1c3Rlcg0Kay5vYmokY2VudGVycw0KYGBgDQoNCmBgYHtyfQ0KIyBpbXBvcnQgZGF0YQ0KeD1jKDEsMS41LDMsNSwzLjUsNC41LDMuNSkNCnk9YygxLDIsNCw3LDUsNSw0LjUpDQpkYXRhPWNiaW5kKHgseSkNCiMgaGllcmFyY2hpY2FsIGNsdXN0ZXJpbmcgd2l0aCBjb21wbGV0ZSAgDQpoYy5jb21wbGV0ZT1oY2x1c3QoZGlzdChkYXRhKSxtZXRob2Q9ImNvbXBsZXRlIikNCnBsb3QoaGMuY29tcGxldGUseGxhYj0iIixzdWI9IiIsbWFpbj0iSEMgd2l0aCBDb21wbGV0ZSBMaW5rYWdlIikgDQojIERldGVybWluZSB0aGUgIyBvZiBjbHVzdGVycyBieSBzcGVjaWZ5aW5nIGNsdXN0ZXIgbnVtYmVyDQpjdXRyZWUoaGMuY29tcGxldGUsaz0zKQ0KIyBEZXRlcm1pbmUgdGhlICMgb2YgY2x1c3RlcnMgYnkgc3BlY2lmeWluZyBjdXR0aW5nIHRyZWUgaGVpZ2h0ICANCmN1dHJlZShoYy5jb21wbGV0ZSxoPTUpDQoNCmBgYA0KDQoNCg0KYGBge3J9DQojIEltcG9ydCBkYXRhDQpsaWJyYXJ5KHJhbmRvbUZvcmVzdCkNCkhlYXJ0RGF0YT1yZWFkLmNzdigiQzovVXNlcnMvRGVza3RvcC9ub25saW5lYXIgcmVnL0hlYXJ0LmNzdiIpDQpkYXRhPW5hLm9taXQoSGVhcnREYXRhKQ0KZGF0YT1kYXRhWywtMV0NCnNldC5zZWVkKDIpDQp0cmFpbi5pbmRleD1zYW1wbGUoMTpucm93KGRhdGEpLDE1MCkNCmRhdGEudHJhaW49ZGF0YVt0cmFpbi5pbmRleCxdDQpkYXRhLnRlc3Q9ZGF0YVstdHJhaW4uaW5kZXgsXQ0KIyBDQVJUIHRyZWUNCmxpYnJhcnkodHJlZSkNCnRyZWUubW9kZWw9dHJlZShBSER+LixkYXRhPWRhdGEudHJhaW4pDQpzZXQuc2VlZCgyKQ0KY3YudHJlZS5tb2RlbD1jdi50cmVlKHRyZWUubW9kZWwsRlVOPXBydW5lLm1pc2NsYXNzKQ0KY3YudHJlZS5tb2RlbCRzaXplDQpjdi50cmVlLm1vZGVsJGRldg0KDQojIENBUlQgVHJlZSAoQ29udOKAmWQpDQpwcnVuZS50cmVlLm1vZGVsPXBydW5lLm1pc2NsYXNzKHRyZWUubW9kZWwsYmVzdD01KSBwcmVkLnBydW5lLnRyZWU9cHJlZGljdChwcnVuZS50cmVlLm1vZGVsLGRhdGEudGVzdCx0eXBlPSJjbGFzcyIpIHh4PXRhYmxlKHByZWQucHJ1bmUudHJlZSxkYXRhLnRlc3QkQUhEKSANCiMjbWlzY2xhc3NpZmljYXRpb24gZXJyb3INCih4eFsxLDJdK3h4WzIsMV0pLyh4eFsxLDFdK3h4WzEsMl0reHhbMiwxXSt4eFsyLDJdKQ0KDQoNCmBgYA0KDQpgYGB7cn0NCiMgQmFnZ2luZw0Kc2V0LnNlZWQoMikNCmJhZy5tb2RlbD1yYW5kb21Gb3Jlc3QoQUhEfi4sZGF0YT1kYXRhLnRyYWluLG10cnk9MTMsaW1wb3J0YW5jZT1UUlVFKSBiYWcucHJlZD1wcmVkaWN0KGJhZy5tb2RlbCxuZXdkYXRhPWRhdGEudGVzdCkNCnh4PXRhYmxlKGJhZy5wcmVkLGRhdGEudGVzdCRBSEQpDQooeHhbMSwyXSt4eFsyLDFdKS8oeHhbMSwxXSt4eFsxLDJdK3h4WzIsMV0reHhbMiwyXSkNCiMgSW1wb3J0YW5jZSANCnZhckltcFBsb3QoYmFnLm1vZGVsKQ0KYGBgDQoNCg0KYGBge3J9DQojIFJhbmRvbSBGb3Jlc3RzDQpzZXQuc2VlZCgyKQ0KZm9yZXN0Lm1vZGVsPXJhbmRvbUZvcmVzdChBSER+LixkYXRhPWRhdGEudHJhaW4sbXRyeT00LCBpbXBvcnRhbmNlPVRSVUUpDQpmb3Jlc3QucHJlZD1wcmVkaWN0KGZvcmVzdC5tb2RlbCxuZXdkYXRhPWRhdGEudGVzdCkNCnh4PXRhYmxlKGZvcmVzdC5wcmVkLGRhdGEudGVzdCRBSEQpDQooeHhbMSwyXSt4eFsyLDFdKS8oeHhbMSwxXSt4eFsxLDJdK3h4WzIsMV0reHhbMiwyXSkNCg0KDQpgYGANCg0KYGBge3J9DQojIEJvb3N0aW5nDQpsaWJyYXJ5KGdibSkNCmRhdGFbLDE0XT1hcy5udW1lcmljKGRhdGFbLDE0XSktMQ0Kc2V0LnNlZWQoMikNCnRyYWluLmluZGV4PXNhbXBsZSgxOm5yb3coZGF0YSksMTUwKQ0KZGF0YS50cmFpbj1kYXRhW3RyYWluLmluZGV4LF0gDQpkYXRhLnRlc3Q9ZGF0YVstdHJhaW4uaW5kZXgsXQ0KYGBgDQoNCg0KYGBge3J9DQpzZXQuc2VlZCgyKQ0KYm9vc3QubW9kZWw9Z2JtKEFIRH4uLGRhdGE9ZGF0YS50cmFpbixkaXN0cmlidXRpb249ImJlcm5vdWxsaSIsIG4udHJlZXM9MjAwMCxpbnRlcmFjdGlvbi5kZXB0aD0zLHNocmlua2FnZT0wLjE1KQ0KcHJlZC5ib29zdD1wcmVkaWN0KGJvb3N0Lm1vZGVsLG5ld2RhdGE9ZGF0YS50ZXN0LG4udHJlZXM9MjAwMCwgdHlwZT0icmVzcG9uc2UiKSBwcmVkLmJvb3N0PWlmZWxzZShwcmVkLmJvb3N0PDAuNSwwLDEpDQp4eD10YWJsZShwcmVkLmJvb3N0LGRhdGEudGVzdCRBSEQpDQooeHhbMSwyXSt4eFsyLDFdKS8oeHhbMSwxXSt4eFsxLDJdK3h4WzIsMV0reHhbMiwyXSkNCiNpbXBvcnRhbmNlDQpzdW1tYXJ5KGJvb3N0Lm1vZGVsKQ0KYGBgDQoNCg0KDQoNCg0KDQoNCg0K</div>
 
 
 
