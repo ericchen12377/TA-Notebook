@@ -1,0 +1,145 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+train <- read.csv(file = 'train2019.csv', header = TRUE, sep = ',')
+test <- read.csv(file = 'test2019.csv', header = TRUE, sep = ',')
+```
+
+# Problem (1)
+```{r}
+library(MASS)
+#Training
+model.lda <- lda(HF ~., data = train)
+pred.train.lda <- predict(model.lda, newdata = train)
+table(pred.train.lda$class, train$HF)
+mean(pred.train.lda$class!=train$HF)
+
+#Testing
+pred.test.lda <- predict(model.lda, newdata = test)
+table(pred.test.lda$class, test$HF)
+mean(pred.test.lda$class!=test$HF)
+```
+
+
+
+# Problem (2)
+```{r}
+library(MASS)
+#Training
+model.qda <- qda(HF ~., data = train)
+pred.train.qda <- predict(model.qda, newdata = train)
+table(pred.train.qda$class, train$HF)
+mean(pred.train.qda$class!=train$HF)
+
+#Testing
+pred.test.qda <- predict(model.qda, newdata = test)
+table(pred.test.qda$class, test$HF)
+mean(pred.test.qda$class!=test$HF)
+```
+
+
+# Problem (3)
+```{r}
+#Training
+model.logistic <- glm(HF ~., data = train, family = 'binomial')
+pred.train.logistic <- predict(model.logistic, newdata = train, type = 'response')
+pred.train.logistic.class <- rep('No', nrow(train))
+pred.train.logistic.class[pred.train.logistic >= 0.5] = 'Yes'
+table(pred.train.logistic.class, train$HF)
+mean(pred.train.logistic.class!=train$HF)
+
+#Testing
+pred.test.logistic <- predict(model.logistic, newdata = test, type = 'response')
+pred.test.logistic.class <- rep('No', nrow(test))
+pred.test.logistic.class[pred.test.logistic >= 0.5] = 'Yes'
+table(pred.test.logistic.class, test$HF)
+mean(pred.test.logistic.class!=test$HF)
+```
+
+
+
+# Problem (4)
+```{r}
+#Training
+model.logistic <- glm(HF ~ Age + Gender + Cp + Thalach, data = train, family = 'binomial')
+pred.train.logistic <- predict(model.logistic, newdata = train, type = 'response')
+pred.train.logistic.class <- rep('No', nrow(train))
+pred.train.logistic.class[pred.train.logistic >= 0.5] = 'Yes'
+table(pred.train.logistic.class, train$HF)
+mean(pred.train.logistic.class!=train$HF)
+
+#Testing
+pred.test.logistic <- predict(model.logistic, newdata = test, type = 'response')
+pred.test.logistic.class <- rep('No', nrow(test))
+pred.test.logistic.class[pred.test.logistic >= 0.5] = 'Yes'
+table(pred.test.logistic.class, test$HF)
+mean(pred.test.logistic.class!=test$HF)
+```
+
+
+
+# Problem (5)
+```{r}
+library(class)
+#Training
+set.seed(2019)
+pred.train.knn <- knn(train[, 1:5], train[, 1:5], train[, 6], k = 3)
+table(pred.train.knn, train$HF)
+mean(pred.train.knn != train$HF)
+
+#Testing
+#Training
+set.seed(2019)
+pred.test.knn <- knn(train[, 1:5], test[, 1:5], train[, 6], k = 3)
+table(pred.test.knn, test$HF)
+mean(pred.test.knn != test$HF)
+```
+
+
+# Problem (6)
+```{r}
+#Training
+coded.HF <- as.numeric(train$HF) - 1
+model.lm <- lm(coded.HF ~ Age + Gender + Cp + Fbs + Thalach, data = train)
+pred.train.lm <- predict(model.lm, newdata = train)
+pred.train.lm.class <- rep('No', nrow(train))
+pred.train.lm.class[pred.train.lm >= 0.5] = 'Yes'
+table(pred.train.lm.class, train$HF)
+mean(pred.train.lm.class!=train$HF)
+
+#Testing
+pred.test.lm <- predict(model.lm, newdata = test)
+pred.test.lm.class <- rep('No', nrow(test))
+pred.test.lm.class[pred.test.lm >= 0.5] = 'Yes'
+table(pred.test.lm.class, test$HF)
+mean(pred.test.lm.class!=test$HF)
+```
+
+
+
+# Problem (7)
+```{r}
+#Training
+coded.HF <- as.numeric(train$HF) - 1
+model.lm <- lm(coded.HF ~ Age + Gender + Cp + Thalach, data = train)
+pred.train.lm <- predict(model.lm, newdata = train)
+pred.train.lm.class <- rep('No', nrow(train))
+pred.train.lm.class[pred.train.lm >= 0.5] = 'Yes'
+table(pred.train.lm.class, train$HF)
+mean(pred.train.lm.class!=train$HF)
+
+#Testing
+pred.test.lm <- predict(model.lm, newdata = test)
+pred.test.lm.class <- rep('No', nrow(test))
+pred.test.lm.class[pred.test.lm >= 0.5] = 'Yes'
+table(pred.test.lm.class, test$HF)
+mean(pred.test.lm.class!=test$HF)
+```
+
+
+
+
+
